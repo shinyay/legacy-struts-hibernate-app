@@ -50,8 +50,8 @@
                destdir="${classes.dir}"
                classpathref="compile.classpath"
                encoding="UTF-8"
-               source="1.5"
-               target="1.5"
+               source="1.7"
+               target="1.7"
                debug="true"
                deprecation="true"
                includeantruntime="false"/>
@@ -70,8 +70,8 @@
                destdir="${test.classes.dir}"
                classpathref="test.classpath"
                encoding="UTF-8"
-               source="1.5"
-               target="1.5"
+               source="1.7"
+               target="1.7"
                debug="true"
                deprecation="true"
                failonerror="false"/>
