@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.example.edms.model">
+    
+    <class name="AuditLog" table="audit_logs">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="userId" column="user_id" type="long"/>
+        <property name="action" column="action" not-null="true" length="100"/>
+        <property name="resourceType" column="resource_type" not-null="true" length="50"/>
+        <property name="resourceId" column="resource_id" type="long"/>
+        <property name="details" column="details" type="text"/>
+        <property name="ipAddress" column="ip_address" length="45"/>
+        <property name="userAgent" column="user_agent" length="255"/>
+        <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
+    </class>
+
+</hibernate-mapping>

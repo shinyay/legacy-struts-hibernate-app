@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.example.edms.model">
+    
+    <class name="Category" table="categories">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="name" column="name" not-null="true" unique="true" length="100"/>
+        <property name="description" column="description" length="500"/>
+        <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
+        <property name="updatedAt" column="updated_at" type="timestamp" not-null="true"/>
+        
+        <!-- Self-referencing many-to-one for parent category -->
+        <many-to-one name="parent" class="Category" column="parent_id" lazy="proxy"/>
+        
+        <!-- One-to-many for child categories -->
+        <set name="children" lazy="true" fetch="select" inverse="true">
+            <key column="parent_id"/>
+            <one-to-many class="Category"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.example.edms.model">
+    
+    <class name="Document" table="documents">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="title" column="title" not-null="true" length="200"/>
+        <property name="description" column="description" type="text"/>
+        <property name="fileName" column="file_name" not-null="true" length="255"/>
+        <property name="filePath" column="file_path" not-null="true" length="500"/>
+        <property name="fileSize" column="file_size" type="long" not-null="true"/>
+        <property name="fileType" column="file_type" not-null="true" length="50"/>
+        <property name="mimeType" column="mime_type" length="100"/>
+        <property name="department" column="department" length="100"/>
+        <property name="accessLevel" column="access_level" length="20" not-null="true"/>
+        <property name="status" column="status" length="20" not-null="true"/>
+        <property name="currentVersion" column="current_version" type="integer"/>
+        <property name="downloadCount" column="download_count" type="integer"/>
+        <property name="viewCount" column="view_count" type="integer"/>
+        <property name="expirationDate" column="expiration_date" type="timestamp"/>
+        <property name="customField1" column="custom_field1" length="255"/>
+        <property name="customField2" column="custom_field2" length="255"/>
+        <property name="customField3" column="custom_field3" length="255"/>
+        <property name="customField4" column="custom_field4" length="255"/>
+        <property name="customField5" column="custom_field5" length="255"/>
+        <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
+        <property name="updatedAt" column="updated_at" type="timestamp" not-null="true"/>
+        <property name="createdBy" column="created_by" type="long" not-null="true"/>
+        <property name="updatedBy" column="updated_by" type="long" not-null="true"/>
+        
+        <!-- Many-to-one relationship with Category -->
+        <many-to-one name="category" class="Category" column="category_id" not-null="true" lazy="proxy"/>
+        
+        <!-- Many-to-one relationship with User (author) -->
+        <many-to-one name="author" class="User" column="author_id" not-null="true" lazy="proxy"/>
+        
+        <!-- Many-to-many relationship with Tag -->
+        <set name="tags" table="document_tags" lazy="true" fetch="select">
+            <key column="document_id"/>
+            <many-to-many class="Tag" column="tag_id"/>
+        </set>
+        
+        <!-- One-to-many relationship with DocumentVersion (if implemented) -->
+        <!-- <set name="versions" lazy="true" fetch="select" inverse="true">
+            <key column="document_id"/>
+            <one-to-many class="DocumentVersion"/>
+        </set> -->
+    </class>
+
+</hibernate-mapping>
