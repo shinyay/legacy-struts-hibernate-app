@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <!-- Connects to MySQL 5.7 service defined in compose.services.yaml -->
+        <!-- Using container name 'legacy-mysql' for Tomcat to connect -->
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://legacy-mysql:3306/legacy_db?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;useSSL=false</property>
+        <property name="hibernate.connection.username">legacy_user</property>
+        <property name="hibernate.connection.password">legacy_pass</property>
+
+        <!-- JDBC connection pool settings (built-in pool for development) -->
+        <property name="hibernate.connection.pool_size">5</property>
+
+        <!-- SQL dialect for MySQL 5.7 -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- Development mode: Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.use_sql_comments">true</property>
+
+        <!-- Schema management: 'update' creates tables if missing, preserves data -->
+        <!-- Options: validate | update | create | create-drop -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache (simplest for development) -->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="hibernate.cache.use_query_cache">false</property>
+
+        <!-- Mapping files -->
+        <mapping resource="com/example/model/User.hbm.xml"/>
+
+    </session-factory>
+</hibernate-configuration>

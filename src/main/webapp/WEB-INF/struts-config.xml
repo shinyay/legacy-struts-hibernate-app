@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+    "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+    <!-- Form Beans -->
+    <form-beans>
+        <form-bean name="sampleForm" type="com.example.form.SampleForm"/>
+    </form-beans>
+
+    <!-- Action Mappings -->
+    <action-mappings>
+        <action path="/sample"
+                type="com.example.action.SampleAction"
+                name="sampleForm"
+                scope="request"
+                validate="true"
+                input="/sample.jsp">
+            <forward name="success" path="/success.jsp"/>
+            <forward name="failure" path="/error.jsp"/>
+        </action>
+
+        <!-- User AJAX Actions -->
+        <action path="/user/save"
+                type="com.example.action.UserAction"
+                parameter="method=save"
+                validate="false"/>
+
+        <action path="/user/list"
+                type="com.example.action.UserAction"
+                parameter="method=list"
+                validate="false"/>
+    </action-mappings>
+
+    <!-- Message Resources -->
+    <message-resources parameter="ApplicationResources"/>
+
+</struts-config>
