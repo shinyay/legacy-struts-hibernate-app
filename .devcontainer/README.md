@@ -4,7 +4,7 @@
 
 **Before starting the Dev Container, you must download and place the JDK binary file.**
 
-👉 **See [SETUP_REQUIRED.md](./SETUP_REQUIRED.md) for detailed instructions**
+👉 **See [docs/SETUP_REQUIRED.md](./docs/SETUP_REQUIRED.md) for detailed instructions**
 
 **Quick Setup:**
 1. Download `jdk-1_5_0_22-linux-amd64-rpm.bin` from [Oracle Java Archive](https://www.oracle.com/java/technologies/java-archive-javase5-downloads.html)
@@ -214,11 +214,22 @@ docker run -d \
 ├── compose.dev.yaml           # Development container definition
 ├── compose.services.yaml      # Application services definition
 ├── Dockerfile                 # Java 5 environment image
+├── .gitignore                 # Git ignore patterns
+├── README.md                  # This file
 ├── scripts/                   # Utility scripts
 │   ├── host-services.sh       # Service management
 │   ├── check-services.sh      # Health monitoring
-│   └── dev-setup.sh          # Environment setup
-└── README.md                  # This file
+│   ├── start-services.sh      # Automated startup
+│   ├── build.sh              # Build automation
+│   ├── dev-setup.sh          # Environment setup
+│   ├── dev-server.sh         # Alternative development server
+│   ├── check-setup.sh        # Pre-build validation
+│   └── cleanup-old-containers.sh  # Container cleanup
+└── docs/                      # Documentation
+    ├── SETUP_REQUIRED.md      # Required setup instructions
+    ├── CONTAINER_CLEANUP_FIX.md   # Container cleanup guide
+    ├── CONTAINER_CONFLICT_FIX.md  # Conflict resolution guide
+    └── DIAGNOSIS_AND_FIX.md   # Troubleshooting guide
 ```
 
 ### devcontainer.json Configuration
@@ -500,31 +511,180 @@ The build automatically extracts compressed JAR files:
 
 ## Utility Scripts
 
-The `.devcontainer/scripts/` directory contains helpful utilities:
+The `.devcontainer/scripts/` directory contains helpful utilities for managing the development environment:
 
-### host-services.sh
+### Service Management Scripts
+
+#### host-services.sh
+Manages Docker Compose services (Tomcat, MySQL, phpMyAdmin) running on the host.
+
 ```bash
 # Check service status
-./host-services.sh status
+./scripts/host-services.sh status
 
 # Start all services
-./host-services.sh start
+./scripts/host-services.sh start
 
 # Stop all services
-./host-services.sh stop
+./scripts/host-services.sh stop
 
 # Restart services
-./host-services.sh restart
+./scripts/host-services.sh restart
 ```
 
-### check-services.sh
+**Purpose**: Primary service management interface for the host-side application services.
+
+#### check-services.sh
+Monitors and validates the health of running services with detailed port accessibility checks.
+
 ```bash
 # Continuous service monitoring
-./check-services.sh
+./scripts/check-services.sh
 
 # One-time status check
-./check-services.sh --once
+./scripts/check-services.sh --once
 ```
+
+**Purpose**: Service health monitoring and troubleshooting.
+
+#### start-services.sh
+Automated startup script that builds the application and starts all required services.
+
+```bash
+./scripts/start-services.sh
+```
+
+**Purpose**: One-command startup for complete environment initialization.
+
+### Build and Development Scripts
+
+#### build.sh
+Comprehensive build automation script for Java 5 legacy applications with support for multiple build targets.
+
+```bash
+# Full build (default)
+./scripts/build.sh build
+
+# Clean build artifacts
+./scripts/build.sh clean
+
+# Compile only
+./scripts/build.sh compile
+
+# Create WAR file
+./scripts/build.sh war
+
+# Generate JavaDoc
+./scripts/build.sh javadoc
+
+# Show help
+./scripts/build.sh help
+```
+
+**Purpose**: Flexible build automation with environment validation and directory management.
+
+#### dev-setup.sh
+Interactive development environment setup script that creates project structure, configuration files, and sample code.
+
+```bash
+# Complete setup (default)
+./scripts/dev-setup.sh all
+
+# Show environment info
+./scripts/dev-setup.sh env
+
+# Initialize directory structure
+./scripts/dev-setup.sh init
+
+# Create configuration files
+./scripts/dev-setup.sh config
+
+# Create sample Struts application code
+./scripts/dev-setup.sh sample
+
+# Show help
+./scripts/dev-setup.sh help
+```
+
+**Purpose**: Project scaffolding and sample code generation for Struts applications.
+
+#### dev-server.sh
+Alternative development server using Jetty 6.1 for testing WAR files when external Tomcat is unavailable.
+
+```bash
+./scripts/dev-server.sh
+```
+
+**Purpose**: Fallback application server for development and testing.
+
+### Maintenance Scripts
+
+#### check-setup.sh
+Validates that the required JDK binary file exists before Dev Container build.
+
+```bash
+./scripts/check-setup.sh
+```
+
+**Purpose**: Pre-build validation to ensure all required files are in place. This script checks for `jdk-1_5_0_22-linux-amd64-rpm.bin` and provides detailed setup instructions if missing.
+
+#### cleanup-old-containers.sh
+Cleanup script to remove old/orphaned containers before starting the dev environment.
+
+```bash
+./scripts/cleanup-old-containers.sh
+```
+
+**Purpose**: Prevents port conflicts and ensures clean startup by removing stale containers.
+
+## Documentation
+
+The `.devcontainer/docs/` directory contains detailed documentation for troubleshooting and setup:
+
+### SETUP_REQUIRED.md
+**Critical setup instructions** for obtaining and placing the JDK 1.5.0_22 binary file required for building the Dev Container.
+
+**Contents**:
+- JDK binary download instructions
+- Oracle Java Archive access guide
+- File placement and verification steps
+- License agreement information
+
+**When to use**: Before starting the Dev Container for the first time.
+
+### CONTAINER_CLEANUP_FIX.md
+Documentation for resolving container conflicts and port binding issues.
+
+**Contents**:
+- Common container conflict scenarios
+- Port conflict resolution
+- Cleanup procedures for orphaned containers
+- Best practices for container management
+
+**When to use**: When experiencing container startup failures or port conflicts.
+
+### CONTAINER_CONFLICT_FIX.md
+Detailed guide for resolving Docker container naming conflicts and service collision issues.
+
+**Contents**:
+- Container naming conflict resolution
+- Service name collision fixes
+- Docker Compose troubleshooting
+- Network configuration issues
+
+**When to use**: When containers fail to start due to naming conflicts.
+
+### DIAGNOSIS_AND_FIX.md
+Comprehensive troubleshooting guide for Dev Container environment issues.
+
+**Contents**:
+- Common error patterns and solutions
+- Service connectivity problems
+- Build failures and dependency issues
+- Environment configuration problems
+- Step-by-step diagnostic procedures
+
+**When to use**: When experiencing any Dev Container or service-related issues.
 
 ## Development Best Practices
 
