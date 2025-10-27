@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.example.edms.model">
+    
+    <class name="User" table="users">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="username" column="username" not-null="true" unique="true" length="50"/>
+        <property name="password" column="password" not-null="true" length="255"/>
+        <property name="email" column="email" not-null="true" length="100"/>
+        <property name="fullName" column="full_name" length="100"/>
+        <property name="phone" column="phone" length="20"/>
+        <property name="department" column="department" length="100"/>
+        <property name="profilePicturePath" column="profile_picture_path" length="255"/>
+        <property name="status" column="status" length="20" not-null="true"/>
+        <property name="failedLoginAttempts" column="failed_login_attempts" type="integer"/>
+        <property name="lastLoginAt" column="last_login_at" type="timestamp"/>
+        <property name="passwordChangedAt" column="password_changed_at" type="timestamp"/>
+        <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
+        <property name="updatedAt" column="updated_at" type="timestamp" not-null="true"/>
+        <property name="createdBy" column="created_by" type="long"/>
+        <property name="updatedBy" column="updated_by" type="long"/>
+        
+        <!-- Many-to-many relationship with Role -->
+        <set name="roles" table="user_roles" lazy="true" fetch="select">
+            <key column="user_id"/>
+            <many-to-many class="Role" column="role_id"/>
+        </set>
+    </class>
+
+</hibernate-mapping>

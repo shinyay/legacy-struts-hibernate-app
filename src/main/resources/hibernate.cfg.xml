@@ -38,6 +38,15 @@
 
         <!-- Mapping files -->
         <mapping resource="com/example/model/User.hbm.xml"/>
+        
+        <!-- EDMS Entity Mappings -->
+        <mapping resource="com/example/edms/model/User.hbm.xml"/>
+        <mapping resource="com/example/edms/model/Role.hbm.xml"/>
+        <mapping resource="com/example/edms/model/Permission.hbm.xml"/>
+        <mapping resource="com/example/edms/model/Category.hbm.xml"/>
+        <mapping resource="com/example/edms/model/Document.hbm.xml"/>
+        <mapping resource="com/example/edms/model/Tag.hbm.xml"/>
+        <mapping resource="com/example/edms/model/AuditLog.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

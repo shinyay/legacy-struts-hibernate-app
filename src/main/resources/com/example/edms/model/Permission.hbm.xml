@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.example.edms.model">
+    
+    <class name="Permission" table="permissions">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="name" column="name" not-null="true" unique="true" length="100"/>
+        <property name="resource" column="resource" not-null="true" length="50"/>
+        <property name="action" column="action" not-null="true" length="50"/>
+        <property name="description" column="description" length="255"/>
+        <property name="createdAt" column="created_at" type="timestamp" not-null="true"/>
+    </class>
+
+</hibernate-mapping>
